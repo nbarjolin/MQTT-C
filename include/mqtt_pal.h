@@ -125,6 +125,43 @@ SOFTWARE.
 
 #endif
 
+#include  <includes.h>
+#include <limits.h>
+//#include <os.h>
+//#include <lib_str.h>
+#include <stdarg.h>
+
+//#ifndef NET_BSD_CFG_API_EN
+//#define NET_BSD_CFG_API_EN DEF_ENABLED
+
+//#include <net_cfg.h>
+//#include <net_bsd.h>
+//#endif
+//#include "types.h"
+    #define MQTT_PAL_HTONS(s) htons(s)
+    #define MQTT_PAL_NTOHS(s) ntohs(s)
+//typedef      signed  int  ssize_t;   
+typedef int mqtt_pal_socket_handle;
+typedef    CPU_SIZE_T  size_t;
+/*typedef signed char int8_t ;
+typedef unsigned char uint8_t ;
+typedef signed short int16_t ;
+typedef unsigned short uint16_t ;
+typedef signed long int32_t ;
+typedef unsigned long uint32_t ;*/
+typedef int32_t mqtt_pal_time_t;
+typedef OS_MUTEX mqtt_pal_mutex_t;
+
+    #define MQTT_PAL_MUTEX_INIT(mtx_ptr) {OS_ERR      err; OSMutexCreate(mtx_ptr, "", &err);}
+    #define MQTT_PAL_MUTEX_LOCK(mtx_ptr) {OS_ERR      err; OSMutexPend(mtx_ptr,0,OS_OPT_PEND_BLOCKING,((CPU_TS *)0),&err);}
+    #define MQTT_PAL_MUTEX_UNLOCK(mtx_ptr) {OS_ERR      err; OSMutexPost(mtx_ptr, OS_OPT_POST_NONE,&err);}
+
+#define MQTT_PAL_TIME() time(NULL)
+
+#define NULL (DEF_NULL)
+#define memcpy Mem_Copy
+#define strlen Str_Len
+
 /**
  * @brief Sends all the bytes in a buffer.
  * @ingroup pal

@@ -32,6 +32,33 @@ SOFTWARE.
  * @cond Doxygen_Suppress
  */
 
+void *
+memmove(void *pvDst, const void *pvSrc, unsigned int n) {
+
+unsigned char u8CopyByte=1;  //flag bit
+char *pcSource =(char *)pvSrc;
+char *pcDstn =(char *)pvDst;
+
+ if(pcSource == pcDstn) { //Source & destination have same address
+  
+  u8CopyByte=0;
+  
+   } else if(pcSource < pcDstn && pcDstn < pcSource + n) { // overlap
+    
+     /* If overlap then copy from end*/
+        pcSource += n;
+        pcDstn += n;
+    
+   }
+if(u8CopyByte) {
+ 
+    while(n--)
+    *--pcDstn = *--pcSource;
+    }
+ 
+    return pvDst;
+ }
+
 enum MQTTErrors mqtt_sync(struct mqtt_client *client) {
     /* Recover from any errors */
     enum MQTTErrors err;
